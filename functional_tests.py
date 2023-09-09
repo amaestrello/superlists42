@@ -53,18 +53,30 @@ class NewVsitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         self.assertTrue(
-            any(row.text == '4: Comprar anzol - alta' for row in table.find_elements_by_tag_name('tr'))
+            any(row.text == '6: Comprar anzol - alta' for row in table.find_elements_by_tag_name('tr'))
         )
 
         # Ainda continua havendo uma caixa de texto convidando-a a 
         # acrescentar outro item. Ela insere "Comprar cola instantâne"
         # e assinala prioridade baixa pois ela ainda tem cola suficiente
         # por algum tempo
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        priority_select = self.browser.find_element_by_id('id_priority')
+        
+        inputbox.send_keys('Comprar cola instantânea')
+        priority_select.send_keys('prioridade baixa')
 
-
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
         
         # A página é atualizada novamente e agora mostra os dois
         # itens em sua lista e as respectivas prioridades
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '7: Comprar cola instantânea - baixa' for row in rows)
+        )
         
         # Edith se pergunta se o site lembrará de sua lista. Então
         # ela nota que o site gerou um URL único para ela -- há um 
