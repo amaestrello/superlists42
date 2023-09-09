@@ -1,8 +1,22 @@
 <html>
-	<title>Priority To-Do</title>
+	<head>
+		<title>Priority To-Do</title>
+	</head>
+	<body>
+		<h1>Priority To-Do</h1>
+		<form method="POST">
+			<input name="item_text" id="id_new_item" placeholder="Enter a to-do item" />
+			<select id="id_priority" name="priority">
+				<option value="alta">prioridade alta</option>
+				<option value="media">prioridade média</option>
+				<option value="baixa">prioridade baixa</option>
+			</select>
+			{% csrf_token %}
+		</form>
+		<table id="id_list_table">
+			{% for item in items %}
+			<tr><td>{{ forloop.counter }}: {{ item.text }} - {{ item.priority }}</td></tr>
+			{% endfor %}
+		</table>
+	</body>
 </html>
-from django.shortcuts import render
-
-# Create your views here.
-def home_page(request):
-	return render(request, 'home.html')

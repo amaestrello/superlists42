@@ -1,5 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+
+
 import time
 import unittest
  
@@ -29,7 +32,7 @@ class NewVsitorTest(unittest.TestCase):
         # mesma imediatamente
 
         inputbox = self.browser.find_element_by_id('id_new_item')
-        priority_select = Select(self.browser.find_element_by_id('priority'))
+        priority_select = Select(self.browser.find_element_by_id('id_priority'))
 
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
         self.assertEqual(priority_select.first_selected_option.text, 'prioridade alta')
@@ -45,20 +48,20 @@ class NewVsitorTest(unittest.TestCase):
         # como um item em uma lista de tarefas
 
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(100)
+
+        time.sleep(1)
 
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-             any(row.text == '1: Comprar anzol - prioridade alta' for row in rows)
+            any(row.text == '4: Comprar anzol - alta' for row in table.find_elements_by_tag_name('tr'))
         )
-        
+
         # Ainda continua havendo uma caixa de texto convidando-a a 
         # acrescentar outro item. Ela insere "Comprar cola instantâne"
         # e assinala prioridade baixa pois ela ainda tem cola suficiente
         # por algum tempo
 
-        self.fail('Finish the test!')
+
         
         # A página é atualizada novamente e agora mostra os dois
         # itens em sua lista e as respectivas prioridades
@@ -66,6 +69,8 @@ class NewVsitorTest(unittest.TestCase):
         # Edith se pergunta se o site lembrará de sua lista. Então
         # ela nota que o site gerou um URL único para ela -- há um 
         # pequeno texto explicativo para isso.
+        
+        self.fail('Finish the test!')        
         
         # Ela acessa essa URL -- sua lista de tarefas continua lá.
 
